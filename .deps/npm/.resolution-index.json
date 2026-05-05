@@ -1,0 +1,10 @@
+{
+  "SimpleBank.sol": {
+    "__sources__": {
+      "SimpleBank.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ncontract SimpleBank {\r\n\r\n    // Store balances of each user\r\n    mapping(address => uint) private balances;\r\n\r\n    // Event for deposit\r\n    event Deposit(address indexed user, uint amount);\r\n\r\n    // Event for withdrawal\r\n    event Withdraw(address indexed user, uint amount);\r\n\r\n    // Deposit Ether into the contract\r\n    function deposit() public payable {\r\n        require(msg.value > 0, \"You must send some Ether\");\r\n\r\n        balances[msg.sender] += msg.value;\r\n\r\n        emit Deposit(msg.sender, msg.value);\r\n    }\r\n\r\n    // Check your balance\r\n    function getBalance() public view returns (uint) {\r\n        return balances[msg.sender];\r\n    }\r\n\r\n    // Withdraw Ether from the contract\r\n    function withdraw(uint amount) public {\r\n        require(amount > 0, \"Enter valid amount\");\r\n        require(balances[msg.sender] >= amount, \"Insufficient balance\");\r\n\r\n        // Update balance BEFORE transfer (security)\r\n        balances[msg.sender] -= amount;\r\n\r\n        payable(msg.sender).transfer(amount);\r\n\r\n        emit Withdraw(msg.sender, amount);\r\n    }\r\n}",
+        "file": "SimpleBank.sol"
+      }
+    }
+  }
+}
